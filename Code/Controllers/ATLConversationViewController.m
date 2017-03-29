@@ -31,6 +31,7 @@
 #import "ATLMediaAttachment.h"
 #import "ATLLocationManager.h"
 #import "LYRIdentity+ATLParticipant.h"
+#import <CoreSpotlight/CoreSpotlight.h>
 
 @import AVFoundation;
 
@@ -113,6 +114,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     _marksMessagesAsRead = YES;
     _shouldDisplayAvatarItemForOneOtherParticipant = NO;
     _shouldDisplayAvatarItemForAuthenticatedUser = NO;
+    _shouldCreateDistinctConversation = YES;
+
     _avatarItemDisplayFrequency = ATLAvatarItemDisplayFrequencySection;
     _typingParticipantIDs = [NSMutableOrderedSet new];
     _sectionHeaders = [NSHashTable weakObjectsHashTable];
@@ -145,6 +148,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     [super viewDidLoad];
     
+    _arrSpotlight = [[NSMutableArray alloc]init];
+
     [self configureControllerForConversation];
     self.messageInputToolbar.inputToolBarDelegate = self;
     self.addressBarController.delegate = self;
@@ -353,8 +358,61 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     if ([self.delegate respondsToSelector:@selector(conversationViewController:configureCell:forMessage:)]) {
         [self.delegate conversationViewController:self configureCell:cell forMessage:message];
     }
+    
+    
+    
+    NSDictionary *dict = [[NSDictionary alloc]initWithObjectsAndKeys:message,@"message",[self participantNameForMessage:message],@"member",nil];
+    
+    
+    if([message.parts[0].MIMEType isEqualToString:@"text/plain"]){
+        if(![_arrSpotlight containsObject:dict]){
+            [_arrSpotlight addObject:dict];
+        }
+    }
+    
+    
+    if([self.conversationDataSource.queryController numberOfObjectsInSection:0] == indexPath.section){
+        [self addContentSpotlight:_arrSpotlight];
+    }
+    
     return cell;
 }
+
+#pragma mark - spotLight
+
+
+-(void)addContentSpotlight:(NSMutableArray *)arrContent{
+    
+    NSString *domainIdentifier = @"Chat";
+    
+    NSMutableArray *arrSearchableData = [[NSMutableArray alloc]init];
+    
+    for(NSDictionary *docobject in arrContent) {
+        
+        CSSearchableItemAttributeSet *attibuteSet = [[CSSearchableItemAttributeSet alloc] initWithItemContentType:(__bridge NSString *)kUTTypeItem];
+        LYRMessage *message =[docobject valueForKey:@"message"];
+        
+        NSString *text = [[NSString alloc] initWithData:message.parts[0].data encoding:NSUTF8StringEncoding];
+        
+        attibuteSet.title = [docobject valueForKey:@"member"];
+        attibuteSet.contentDescription = text ;
+        attibuteSet.keywords = @[text];
+        
+        CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[NSString stringWithFormat:@"%@||||Chat",text]domainIdentifier:domainIdentifier attributeSet:attibuteSet];
+        [arrSearchableData addObject:item];
+    }
+    
+    [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:(arrSearchableData) completionHandler:^(NSError *error) {
+        if(error){
+            NSLog(@"%@",[error localizedDescription]);
+        }else{
+            NSLog(@"items were added succesfully");
+        }
+    }];
+    
+}
+
+
 
 #pragma mark - UICollectionViewDelegate
 
@@ -1206,9 +1264,6 @@ static NSInteger const ATLPhotoActionSheet = 1000;
           forChangeType:(LYRQueryControllerChangeType)type
            newIndexPath:(NSIndexPath *)newIndexPath
 {
-    if (self.collectionView.window == nil) return;
-    if (self.expandingPaginationWindow) return;
-    
     NSInteger currentIndex = indexPath ? [self.conversationDataSource collectionViewSectionForQueryControllerRow:indexPath.row] : NSNotFound;
     NSInteger newIndex = newIndexPath ? [self.conversationDataSource collectionViewSectionForQueryControllerRow:newIndexPath.row] : NSNotFound;
     [self.objectChanges addObject:[ATLDataSourceChange changeObjectWithType:type newIndex:newIndex currentIndex:currentIndex]];
@@ -1223,12 +1278,6 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     NSArray *objectChanges = [self.objectChanges copy];
     [self.objectChanges removeAllObjects];
-    
-    if (self.collectionView.window == nil) {
-        [self.collectionView reloadData];
-        [self.collectionView layoutIfNeeded];
-        return;
-    }
     
     if (self.expandingPaginationWindow) {
         self.expandingPaginationWindow = NO;

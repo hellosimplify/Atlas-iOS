@@ -21,6 +21,7 @@
 #import <UIKit/UIKit.h>
 #import "ATLMessageComposeTextView.h"
 #import "ATLMediaAttachment.h"
+#import <Photos/Photos.h>
 
 @class ATLMessageInputToolbar;
 

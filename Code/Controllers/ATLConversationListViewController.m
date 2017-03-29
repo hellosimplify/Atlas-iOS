@@ -48,9 +48,6 @@ static UIView *ATLMakeLoadingMoreConversationsIndicatorView()
 @property (nonatomic) BOOL hasAppeared;
 @property (nonatomic) BOOL showingMoreConversationsIndicator;
 @property (nonatomic, readwrite) UISearchController *searchController;
-@property (nonatomic) NSMutableArray *insertedRowIndexPaths;
-@property (nonatomic) NSMutableArray *deletedRowIndexPaths;
-@property (nonatomic) NSMutableArray *updatedRowIndexPaths;
 
 @end
 
@@ -154,9 +151,6 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     // Perform setup here so that our children can initialize via viewDidLoad
     if (!self.queryController) {
         [self setupConversationQueryController];
-    } else if (!self.queryController.delegate) {
-        self.queryController.delegate = self;
-        [self.tableView reloadData];
     }
     
     if (!self.hasAppeared) {
@@ -164,9 +158,12 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         CGFloat contentOffset = self.tableView.contentOffset.y + self.searchController.searchBar.frame.size.height;
         self.tableView.contentOffset = CGPointMake(0, contentOffset);
         self.tableView.rowHeight = self.rowHeight;
-        if (self.allowsEditing) {
-            [self addEditButton];
-        }
+     
+        //Simplify
+        
+//        if (self.allowsEditing) {
+//            [self addEditButton];
+//        }
     }
     
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
@@ -194,8 +191,6 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    self.queryController.delegate = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:LYRClientDidAuthenticateNotification object:self.layerClient];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:LYRClientDidDeauthenticateNotification object:self.layerClient];
@@ -267,7 +262,41 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     if (!self.layerClient.authenticatedUser) {
         return;
     }
+    
+    
+    
+    
     LYRQuery *query = [LYRQuery queryWithQueryableClass:[LYRConversation class]];
+    
+    
+    //Simplify
+
+    //filter groupwise chat
+    
+    NSSet *sFamiles = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"families"]];
+    
+    
+    
+    //showing all chat of user
+   // query.predicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:self.layerClient.authenticatedUserID];
+    
+    NSString * strFamily = @"";
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:@"currentGroup"] != nil){
+        strFamily = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentGroup"];
+    }
+    
+    // query.predicate = [LYRPredicate predicateWithProperty:@"metadata.title" predicateOperator:LYRPredicateOperatorIsEqualTo value:strFamily];
+    
+    LYRPredicate *familyPredicate = [LYRPredicate predicateWithProperty:@"metadata.title" predicateOperator:LYRPredicateOperatorIsEqualTo value:strFamily];
+    
+    
+    LYRPredicate *partPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:sFamiles];
+    
+    LYRPredicate *selfPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsEqualTo value:self.layerClient.authenticatedUserID];
+    
+    //    query.predicate = [LYRCompoundPredicate compoundPredicateWithType:LYRCompoundPredicateTypeOr subpredicates:@[familyPredicate, selfPredicate]];
+
+    
     query.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastMessage.receivedAt" ascending:NO]];
     
     if ([self.dataSource respondsToSelector:@selector(conversationListViewController:willLoadWithQuery:)]) {
@@ -344,10 +373,6 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)configureCell:(UITableViewCell<ATLConversationPresenting> *)conversationCell atIndexPath:(NSIndexPath *)indexPath
 {
     LYRConversation *conversation = [self.queryController numberOfObjectsInSection:indexPath.section] ? [self.queryController objectAtIndexPath:indexPath] : nil;
-    if (conversation == nil) {
-        return;     // NOTE the early return if the conversation isn't found!
-    }
-    
     [conversationCell presentConversation:conversation];
     
     if (self.displaysAvatarItem) {
@@ -500,6 +525,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         selectedConversation = [self.queryController objectAtIndexPath:indexPath];
     }
     self.conversationSelectedBeforeContentChange = selectedConversation;
+    [self.tableView beginUpdates];
 }
 
 - (void)queryController:(LYRQueryController *)controller
@@ -510,17 +536,22 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 {
     switch (type) {
         case LYRQueryControllerChangeTypeInsert:
-            [self.insertedRowIndexPaths addObject:newIndexPath];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case LYRQueryControllerChangeTypeUpdate:
-            [self.updatedRowIndexPaths addObject:indexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case LYRQueryControllerChangeTypeMove:
-            [self.deletedRowIndexPaths addObject:indexPath];
-            [self.insertedRowIndexPaths addObject:newIndexPath];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         case LYRQueryControllerChangeTypeDelete:
-            [self.deletedRowIndexPaths addObject:indexPath];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
         default:
             break;
@@ -529,16 +560,8 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 
 - (void)queryControllerDidChangeContent:(LYRQueryController *)queryController
 {
-    [self.tableView beginUpdates];
-    [self.tableView deleteRowsAtIndexPaths:self.deletedRowIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
-    
-    self.insertedRowIndexPaths = nil;
-    self.deletedRowIndexPaths = nil;
-    self.updatedRowIndexPaths = nil;
-    
+
     [self configureLoadingMoreConversationsIndicatorView];
 
     if (self.conversationSelectedBeforeContentChange) {
@@ -548,21 +571,6 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         }
         self.conversationSelectedBeforeContentChange = nil;
     }
-}
-
-- (NSMutableArray *)insertedRowIndexPaths
-{
-    return _insertedRowIndexPaths ?: (_insertedRowIndexPaths = [[NSMutableArray alloc] init]);
-}
-
-- (NSMutableArray *)deletedRowIndexPaths
-{
-    return _deletedRowIndexPaths ?: (_deletedRowIndexPaths = [[NSMutableArray alloc] init]);
-}
-
-- (NSMutableArray *)updatedRowIndexPaths
-{
-    return _updatedRowIndexPaths ?: (_updatedRowIndexPaths = [[NSMutableArray alloc] init]);
 }
 
 #pragma mark - UIScrollViewDelegate

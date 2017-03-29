@@ -293,10 +293,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL shouldDisplayAvatarItemForAuthenticatedUser;
 
 /**
+ @abstract A Boolean value that determines whether or not a new conversation is created as distict (one and only one conversation among participants)
+ @default `YES`.
+ */
+@property (nonatomic) BOOL shouldCreateDistinctConversation;
+
+/**
  @abstract An Enum value that determines how often avatar items should be shown next to messages.
  @default 'ATLAvatarItemDisplayFrequencySection'.
  */
 @property (nonatomic) ATLAvatarItemDisplayFrequency avatarItemDisplayFrequency;
+
+// Expose these methods for overriding
+- (void)displayImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType;
+- (void)captureLastPhotoTaken;
+
+@property (strong,nonatomic)NSMutableArray *arrSpotlight;
 
 @end
 NS_ASSUME_NONNULL_END
