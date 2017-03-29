@@ -292,7 +292,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     LYRPredicate *partPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:sFamiles];
     
-    LYRPredicate *selfPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsEqualTo value:self.layerClient.authenticatedUserID];
+//    LYRPredicate *selfPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsEqualTo value:self.layerClient.authenticatedUserID];
     
     //    query.predicate = [LYRCompoundPredicate compoundPredicateWithType:LYRCompoundPredicateTypeOr subpredicates:@[familyPredicate, selfPredicate]];
 
