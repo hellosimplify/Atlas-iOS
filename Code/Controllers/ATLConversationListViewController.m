@@ -48,6 +48,8 @@ static UIView *ATLMakeLoadingMoreConversationsIndicatorView()
 @property (nonatomic) BOOL hasAppeared;
 @property (nonatomic) BOOL showingMoreConversationsIndicator;
 @property (nonatomic, readwrite) UISearchController *searchController;
+@property (nonatomic, strong) NSArray *arrConversions;
+
 
 @end
 
@@ -115,6 +117,13 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _arrConversions = [[NSArray alloc]init];
+    
+    
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"] != nil){
+        _arrConversions = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"];
+    }
+    
     
     self.title = ATLLocalizedString(@"atl.conversationlist.title.key", ATLConversationListViewControllerTitle, nil);
     self.accessibilityLabel = ATLConversationListViewControllerTitle;
@@ -130,7 +139,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
         self.searchController.searchResultsUpdater = self;
         self.searchController.dimsBackgroundDuringPresentation = NO;
-
+        
         // UISearchBar
         self.searchController.searchBar.delegate = self;
         self.searchController.searchBar.translucent = NO;
@@ -158,12 +167,12 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         CGFloat contentOffset = self.tableView.contentOffset.y + self.searchController.searchBar.frame.size.height;
         self.tableView.contentOffset = CGPointMake(0, contentOffset);
         self.tableView.rowHeight = self.rowHeight;
-     
+        
         //Simplify
         
-//        if (self.allowsEditing) {
-//            [self addEditButton];
-//        }
+        //        if (self.allowsEditing) {
+        //            [self addEditButton];
+        //        }
     }
     
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
@@ -270,7 +279,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     
     //Simplify
-
+    
     //filter groupwise chat
     
     NSSet *sFamiles = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"families"]];
@@ -278,7 +287,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     
     //showing all chat of user
-   // query.predicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:self.layerClient.authenticatedUserID];
+    // query.predicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:self.layerClient.authenticatedUserID];
     
     NSString * strFamily = @"";
     if( [[NSUserDefaults standardUserDefaults] objectForKey:@"currentGroup"] != nil){
@@ -292,10 +301,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     LYRPredicate *partPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:sFamiles];
     
-//    LYRPredicate *selfPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsEqualTo value:self.layerClient.authenticatedUserID];
+    //    LYRPredicate *selfPredicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsEqualTo value:self.layerClient.authenticatedUserID];
     
     //    query.predicate = [LYRCompoundPredicate compoundPredicateWithType:LYRCompoundPredicateTypeOr subpredicates:@[familyPredicate, selfPredicate]];
-
+    
     
     query.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastMessage.receivedAt" ascending:NO]];
     
@@ -359,13 +368,38 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     NSString *reuseIdentifier = [self reuseIdentifierForConversation:nil atIndexPath:indexPath];
     
     UITableViewCell<ATLConversationPresenting> *conversationCell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    
     [self configureCell:conversationCell atIndexPath:indexPath];
+    
+    //    LYRConversation *conversation = [self.queryController numberOfObjectsInSection:indexPath.section] ? [self.queryController objectAtIndexPath:indexPath] : nil;
+    //
+    //    NSString *strconv = conversation.identifier.absoluteString;
+    //    if([_arrConversions containsObject:strconv]){
+    //        conversationCell.backgroundColor = [UIColor redColor];
+    //    }else{
+    //        conversationCell.backgroundColor = [UIColor clearColor];
+    //    }
+    
     return conversationCell;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.allowsEditing;
+    LYRConversation *conversation = [self.queryController numberOfObjectsInSection:indexPath.section] ? [self.queryController objectAtIndexPath:indexPath] : nil;
+    
+    if(conversation == nil){
+        return self.allowsEditing;
+        
+    }else{
+        NSString *strconv = conversation.identifier.absoluteString;
+        if([_arrConversions containsObject:strconv]){
+            return NO;
+        }else{
+            return self.allowsEditing;
+            
+        }
+    }
 }
 
 #pragma mark - Cell Configuration
@@ -374,6 +408,14 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 {
     LYRConversation *conversation = [self.queryController numberOfObjectsInSection:indexPath.section] ? [self.queryController objectAtIndexPath:indexPath] : nil;
     [conversationCell presentConversation:conversation];
+    
+    NSString *strconv = conversation.identifier.absoluteString;
+    if([_arrConversions containsObject:strconv]){
+        [conversationCell updateChatIcon:NO];
+    }else{
+        [conversationCell updateChatIcon:YES];
+    }
+    
     
     if (self.displaysAvatarItem) {
         if ([self.dataSource respondsToSelector:@selector(conversationListViewController:avatarItemForConversation:)]) {
@@ -561,9 +603,9 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)queryControllerDidChangeContent:(LYRQueryController *)queryController
 {
     [self.tableView endUpdates];
-
+    
     [self configureLoadingMoreConversationsIndicatorView];
-
+    
     if (self.conversationSelectedBeforeContentChange) {
         NSIndexPath *indexPath = [self.queryController indexPathForObject:self.conversationSelectedBeforeContentChange];
         if (indexPath) {
@@ -619,7 +661,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         return;
     }
     self.showingMoreConversationsIndicator = moreConversationsAvailable;
-
+    
     // The indicator view is installed as the table's footer view. When no indicator is needed, install an empty view. This is required in order to suppress the dummy separator lines that UITableView draws to simulate empty rows.
     self.tableView.tableFooterView = self.showingMoreConversationsIndicator ? ATLMakeLoadingMoreConversationsIndicatorView() : [[UIView alloc] init];
 }
@@ -637,9 +679,9 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         [self.delegate conversationListViewController:self didSearchForText:searchString completion:^(NSSet *filteredParticipants) {
             if (![searchString isEqualToString:self.searchController.searchBar.text]) return;
             NSSet *participantIdentifiers = [filteredParticipants valueForKey:@"userID"];
-
+            
             LYRPredicate *predicate = [LYRPredicate predicateWithProperty:@"participants" predicateOperator:LYRPredicateOperatorIsIn value:participantIdentifiers];
-
+            
             [self updateQueryControllerWithPredicate: predicate];
         }];
     }

@@ -55,5 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)updateWithLastMessageText:(NSString *)lastMessageText;
 
+-(void)updateChatIcon:(BOOL)value;
+
+
 @end
 NS_ASSUME_NONNULL_END
