@@ -49,5 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSString *userID;
 
+//vishu
+@property (nonatomic, readonly) NSString *family;
+
+
+@property (nonatomic, readonly) NSString *familyText;
+//vishu
+
 @end
 NS_ASSUME_NONNULL_END

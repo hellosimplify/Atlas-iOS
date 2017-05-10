@@ -137,9 +137,16 @@
 
 - (void)configureNameLabel
 {
-    NSString *participantName = self.participant.displayName?: @"Unknown Participant";
+    
+    
+    NSString *name = self.participant.displayName?: @"Unknown Participant";
+    
+    // NSString *participantName = self.participant.displayName?: @"Unknown Participant";
+    
+    NSString *participantName = [NSString stringWithFormat:@"%@(%@)",name,self.participant.familyText];
+    
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:participantName attributes:@{NSFontAttributeName: self.titleFont}];
-
+    
     NSRange rangeToBold = NSMakeRange(NSNotFound, 0);
     switch (self.sortType) {
         case ATLParticipantPickerSortTypeFirstName:
@@ -156,7 +163,7 @@
     if (rangeToBold.location != NSNotFound && self.shouldBoldTitle) {
         [attributedString addAttributes:@{NSFontAttributeName: self.boldTitleFont} range:rangeToBold];
     }
-
+    
     self.nameLabel.attributedText = attributedString;
     self.nameLabel.textColor = self.titleColor;
 }
