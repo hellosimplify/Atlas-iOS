@@ -66,6 +66,9 @@ static NSDateFormatter *ATLShortTimeFormatter()
 @property (nonatomic) UILabel *lastMessageLabel;
 @property (nonatomic) UIView *unreadMessageIndicator;
 @property (nonatomic) UIImageView *chevronIconView;
+@property (nonatomic) UIImageView *groupChatView;
+
+
 
 @end
 
@@ -73,7 +76,7 @@ static NSDateFormatter *ATLShortTimeFormatter()
 
 static CGFloat const ATLConversationLabelTopPadding = 8.0f;
 static CGFloat const ATLDateLabelRightPadding = 32.0f;
-static CGFloat const ATLLastMessageLabelRightPadding = 16;
+static CGFloat const ATLLastMessageLabelRightPadding = 50.0f;
 static CGFloat const ATLConversationTitleLabelRightPadding = 2.0f;
 static CGFloat const ATLUnreadMessageCountLabelSize = 14.0f;
 static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
@@ -121,6 +124,15 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     _conversationImageView.hidden = YES;
     [self.contentView addSubview:_conversationImageView];
     
+    
+    // Initialize group chat Image
+    _groupChatView = [[UIImageView alloc] init];
+    _groupChatView.translatesAutoresizingMaskIntoConstraints = NO;
+    _groupChatView.layer.masksToBounds = YES;
+    _groupChatView.image = [UIImage imageNamed:@"groupChatF"];
+    _groupChatView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.contentView addSubview:_groupChatView];
+    
     // Initialize Sender Image
     _conversationTitleLabel = [[UILabel alloc] init];
     _conversationTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -164,6 +176,8 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     [self configureLastMessageLayoutConstraints];
     [self configureUnreadMessageIndicatorLayoutConstraints];
     [self configureChevronIconViewConstraints];
+    [self configureConversationgroupChatViewLayoutContraints];
+    
 }
 
 - (void)updateConstraints
@@ -175,14 +189,14 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
         [self.contentView removeConstraint:self.conversationTitleLabelWithoutImageLeftConstraint];
         [self.contentView addConstraint:self.conversationTitleLabelWithImageLeftConstraint];
     }
-
+    
     [super updateConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
+    
     self.separatorInset = UIEdgeInsetsMake(0, CGRectGetMinX(self.conversationTitleLabel.frame), 0, 0);
     self.conversationImageView.layer.cornerRadius = CGRectGetHeight(self.conversationImageView.frame) / 2;
 }
@@ -266,6 +280,12 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     self.lastMessageLabel.attributedText = [self attributedStringForMessageText:lastMessageText];
 }
 
+-(void)updateChatIcon:(BOOL)value{
+    self.groupChatView.hidden = value;
+}
+
+
+
 - (NSAttributedString *)attributedStringForMessageText:(NSString *)messageText
 {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -322,6 +342,23 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.conversationImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:10]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.conversationImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }
+
+
+- (void)configureConversationgroupChatViewLayoutContraints
+{
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:20]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:20]];
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-20]];
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-20]];
+    
+}
+
 
 - (void)configureconversationTitleLabelLayoutContraints
 {
