@@ -134,10 +134,10 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 
 - (void)lyr_commonInit
 {
-        self.backgroundColor = _cellBackgroundColor;
-        
         self.contentView.backgroundColor = [UIColor whiteColor];
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.accessoryType = UITableViewCellAccessoryNone;
+
         //Intialize Card View
         _cardView = [[CardViewObjC alloc] init];
         _cardView.translatesAutoresizingMaskIntoConstraints = NO;
