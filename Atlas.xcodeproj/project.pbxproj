@@ -156,6 +156,8 @@
 		7858B6551CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
 		7858B6561CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
 		7858B6571CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
+		80851A191F472358005998D7 /* CardViewObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 80851A171F472358005998D7 /* CardViewObjC.h */; };
+		80851A1A1F472358005998D7 /* CardViewObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 80851A181F472358005998D7 /* CardViewObjC.m */; };
 		8F5A8821F40061D9FC6CBB4F /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1886043CF840E83E9A77B78B /* Pods_UnitTests.framework */; };
 		917DFA240CA4D2A4EFD8C2DF /* Pods_test_StoryboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62363A00A270318F0E8C0C38 /* Pods_test_StoryboardTests.framework */; };
 		95A744011D22A9D600BED68D /* LayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A744001D22A9D600BED68D /* LayerKit.framework */; };
@@ -354,6 +356,8 @@
 		7858B61C1CE54BBE007795AB /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Resources/plus.png; sourceTree = "<group>"; };
 		7858B61D1CE54BBE007795AB /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Resources/plus@2x.png"; sourceTree = "<group>"; };
 		7858B61E1CE54BBE007795AB /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Resources/plus@3x.png"; sourceTree = "<group>"; };
+		80851A171F472358005998D7 /* CardViewObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardViewObjC.h; sourceTree = "<group>"; };
+		80851A181F472358005998D7 /* CardViewObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardViewObjC.m; sourceTree = "<group>"; };
 		886A86EFB93A13A1717104CE /* Pods-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTests/Pods-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		91A456BCEC404FC7F83EC216 /* Pods-Storyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Storyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Storyboard/Pods-Storyboard.release.xcconfig"; sourceTree = "<group>"; };
 		921B2F42195B3C5F0569C57B /* Pods_Storyboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Storyboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -576,6 +580,8 @@
 		253C29DC1C3C9E0000ED1549 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				80851A171F472358005998D7 /* CardViewObjC.h */,
+				80851A181F472358005998D7 /* CardViewObjC.m */,
 				251C57AB1C5A9E3C00110871 /* ATLBaseCollectionViewCell.h */,
 				251C57AC1C5A9E3C00110871 /* ATLBaseCollectionViewCell.m */,
 				253C29DD1C3C9E0000ED1549 /* ATLAddressBarContainerView.h */,
@@ -932,6 +938,7 @@
 				253C2A441C3C9E0000ED1549 /* ATLMessageBubbleView.h in Headers */,
 				253C2A1F1C3C9E0000ED1549 /* ATLParticipantPresenting.h in Headers */,
 				253C2A421C3C9E0000ED1549 /* ATLIncomingMessageCollectionViewCell.h in Headers */,
+				80851A191F472358005998D7 /* CardViewObjC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1484,6 +1491,7 @@
 				253C2A251C3C9E0000ED1549 /* ATLLocationManager.m in Sources */,
 				253C2A4D1C3C9E0000ED1549 /* ATLOutgoingMessageCollectionViewCell.m in Sources */,
 				253C2A451C3C9E0000ED1549 /* ATLMessageBubbleView.m in Sources */,
+				80851A1A1F472358005998D7 /* CardViewObjC.m in Sources */,
 				253C2A181C3C9E0000ED1549 /* ATLMediaAttachment.m in Sources */,
 				253C2A4B1C3C9E0000ED1549 /* ATLMessageInputToolbar.m in Sources */,
 				253C2A551C3C9E0000ED1549 /* ATLProgressView.m in Sources */,
