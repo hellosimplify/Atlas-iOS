@@ -89,7 +89,7 @@ static NSDateFormatter *ATLShortTimeFormatter()
 @implementation ATLConversationTableViewCell
     
     
-    static CGFloat const ATLConversationLabelTopPadding = 12.0f;
+    static CGFloat const ATLConversationLabelTopPadding = 14.0f;
     static CGFloat const ATLDateLabelRightPadding = 32.0f;
     static CGFloat const ATLLastMessageLabelRightPadding = 50.0f;
     static CGFloat const ATLConversationTitleLabelRightPadding = 2.0f;
@@ -329,7 +329,8 @@ static NSDateFormatter *ATLShortTimeFormatter()
     
     
 -(void)updateChatIcon:(BOOL)value{
-        self.groupChatView.hidden = value;
+    self.groupChatView.hidden = value;
+    _conversationTitleLabelWithImageLeftConstraint.constant = value ? -12 : 5;
 }
     
     
@@ -408,15 +409,17 @@ static NSDateFormatter *ATLShortTimeFormatter()
 - (void)configureConversationgroupChatViewLayoutContraints
     {
             
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:20]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:12]];
             
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:20]];
-            
-            
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-20]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:12]];
             
             
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-20]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem: self.conversationImageView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:5]];
+            
+            
+            //[self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeTop multiplier:1.0 constant: 10]];
+        
+        [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.groupChatView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant: 0]];
             
     }
     
@@ -425,8 +428,9 @@ static NSDateFormatter *ATLShortTimeFormatter()
     
 - (void)configureconversationTitleLabelLayoutContraints
     {
-            self.conversationTitleLabelWithImageLeftConstraint = [NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.conversationImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:10];
+            self.conversationTitleLabelWithImageLeftConstraint = [NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.groupChatView attribute:NSLayoutAttributeRight multiplier:1.0 constant:5];
             self.conversationTitleLabelWithoutImageLeftConstraint = [NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:30];
+        //self.conversationTitleLabelWithoutGroupConstraint = [NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:30];
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.dateLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-ATLConversationTitleLabelRightPadding]];
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.conversationTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeTop multiplier:1.0 constant:ATLConversationLabelTopPadding]];
     }
@@ -434,8 +438,10 @@ static NSDateFormatter *ATLShortTimeFormatter()
     
 - (void)configureDateLabelLayoutContstraints
     {
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLDateLabelRightPadding]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant: -10]];
+        
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0f]];
+        
             // We want the conversation label to compress if needed instead of the date label.
             [self.dateLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh + 1 forAxis:UILayoutConstraintAxisHorizontal];
     }
@@ -443,25 +449,31 @@ static NSDateFormatter *ATLShortTimeFormatter()
     
 - (void)configureLastMessageLayoutConstraints
     {
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLLastMessageLabelRightPadding]];
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.cardView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.conversationImageView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:5]];
+        
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-ATLLastMessageLabelRightPadding]];
+        
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:2]];
+        
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.cardView attribute:NSLayoutAttributeBottom multiplier:1.0 constant: ATLConversationLabelTopPadding]];
     }
     
     
 - (void)configureUnreadMessageIndicatorLayoutConstraints
     {
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLUnreadMessageCountLabelSize]];
+        
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLUnreadMessageCountLabelSize]];
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8]];
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+        
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.conversationImageView attribute:NSLayoutAttributeLeading multiplier:1.0 constant: -5]];
+        
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.conversationImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant: -ATLUnreadMessageCountLabelSize/2 + 1]];
     }
     
     
 - (void)configureChevronIconViewConstraints
     {
-            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.chevronIconView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cardView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLChevronIconViewRightPadding]];
+            [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.chevronIconView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.dateLabel attribute:NSLayoutAttributeLeading multiplier:1.0 constant: -5]];
             [self.cardView addConstraint:[NSLayoutConstraint constraintWithItem:self.chevronIconView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dateLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     }
     
@@ -472,7 +484,6 @@ static NSDateFormatter *ATLShortTimeFormatter()
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant: 5]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant: -5]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.cardView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant: -5]];
-           
         
     }
     
