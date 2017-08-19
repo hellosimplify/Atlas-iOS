@@ -24,6 +24,7 @@
 #import "ATLMessagingUtilities.h"
 #import "ATLAvatarImageView.h"
 #import "CardViewObjC.h"
+#import "NSDate+NVTimeAgo.h"
 
 
 static BOOL ATLIsDateInToday(NSDate *date)
@@ -383,11 +384,13 @@ static NSDateFormatter *ATLShortTimeFormatter()
             if (!lastMessage) return @"";
             if (!lastMessage.sentAt) return @"";
             
-            if (ATLIsDateInToday(lastMessage.receivedAt)) {
-                    return [ATLShortTimeFormatter() stringFromDate:lastMessage.receivedAt];
-                } else {
-                        return [ATLRelativeDateFormatter() stringFromDate:lastMessage.receivedAt];
-                    }
+        return [lastMessage.receivedAt formattedAsTimeAgo];
+        
+        //            if (ATLIsDateInToday(lastMessage.receivedAt)) {
+        //                    return [ATLShortTimeFormatter() stringFromDate:lastMessage.receivedAt];
+        //                } else {
+        //                        return [ATLRelativeDateFormatter() stringFromDate:lastMessage.receivedAt];
+        //                    }
     }
     
     

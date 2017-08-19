@@ -161,8 +161,8 @@
 		80851A1E1F472CDF005998D7 /* icoGreyTime.png in Resources */ = {isa = PBXBuildFile; fileRef = 80851A1B1F472CDF005998D7 /* icoGreyTime.png */; };
 		80851A1F1F472CDF005998D7 /* icoGreyTime@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80851A1C1F472CDF005998D7 /* icoGreyTime@2x.png */; };
 		80851A201F472CDF005998D7 /* icoGreyTime@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80851A1D1F472CDF005998D7 /* icoGreyTime@3x.png */; };
-		809086581F48128300B9DFBB /* NSDate+TimeAgo.h in Headers */ = {isa = PBXBuildFile; fileRef = 809086561F48128300B9DFBB /* NSDate+TimeAgo.h */; };
-		809086591F48128300B9DFBB /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = 809086571F48128300B9DFBB /* NSDate+TimeAgo.m */; };
+		8090865C1F48169300B9DFBB /* NSDate+NVTimeAgo.h in Headers */ = {isa = PBXBuildFile; fileRef = 8090865A1F48169300B9DFBB /* NSDate+NVTimeAgo.h */; };
+		8090865D1F48169300B9DFBB /* NSDate+NVTimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8090865B1F48169300B9DFBB /* NSDate+NVTimeAgo.m */; };
 		8F5A8821F40061D9FC6CBB4F /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1886043CF840E83E9A77B78B /* Pods_UnitTests.framework */; };
 		917DFA240CA4D2A4EFD8C2DF /* Pods_test_StoryboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62363A00A270318F0E8C0C38 /* Pods_test_StoryboardTests.framework */; };
 		95A744011D22A9D600BED68D /* LayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A744001D22A9D600BED68D /* LayerKit.framework */; };
@@ -366,8 +366,8 @@
 		80851A1B1F472CDF005998D7 /* icoGreyTime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icoGreyTime.png; sourceTree = "<group>"; };
 		80851A1C1F472CDF005998D7 /* icoGreyTime@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icoGreyTime@2x.png"; sourceTree = "<group>"; };
 		80851A1D1F472CDF005998D7 /* icoGreyTime@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icoGreyTime@3x.png"; sourceTree = "<group>"; };
-		809086561F48128300B9DFBB /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
-		809086571F48128300B9DFBB /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
+		8090865A1F48169300B9DFBB /* NSDate+NVTimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+NVTimeAgo.h"; sourceTree = "<group>"; };
+		8090865B1F48169300B9DFBB /* NSDate+NVTimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+NVTimeAgo.m"; sourceTree = "<group>"; };
 		886A86EFB93A13A1717104CE /* Pods-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UnitTests/Pods-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		91A456BCEC404FC7F83EC216 /* Pods-Storyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Storyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Storyboard/Pods-Storyboard.release.xcconfig"; sourceTree = "<group>"; };
 		921B2F42195B3C5F0569C57B /* Pods_Storyboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Storyboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -592,8 +592,8 @@
 			children = (
 				80851A171F472358005998D7 /* CardViewObjC.h */,
 				80851A181F472358005998D7 /* CardViewObjC.m */,
-				809086561F48128300B9DFBB /* NSDate+TimeAgo.h */,
-				809086571F48128300B9DFBB /* NSDate+TimeAgo.m */,
+				8090865A1F48169300B9DFBB /* NSDate+NVTimeAgo.h */,
+				8090865B1F48169300B9DFBB /* NSDate+NVTimeAgo.m */,
 				251C57AB1C5A9E3C00110871 /* ATLBaseCollectionViewCell.h */,
 				251C57AC1C5A9E3C00110871 /* ATLBaseCollectionViewCell.m */,
 				253C29DD1C3C9E0000ED1549 /* ATLAddressBarContainerView.h */,
@@ -912,6 +912,7 @@
 				253C2A261C3C9E0000ED1549 /* ATLMediaInputStream.h in Headers */,
 				253C2A131C3C9E0000ED1549 /* ATLConversationDataSource.h in Headers */,
 				253C2A521C3C9E0000ED1549 /* ATLPlayView.h in Headers */,
+				8090865C1F48169300B9DFBB /* NSDate+NVTimeAgo.h in Headers */,
 				253C2A4A1C3C9E0000ED1549 /* ATLMessageInputToolbar.h in Headers */,
 				253C2A321C3C9E0000ED1549 /* ATLAddressBarView.h in Headers */,
 				253C2A3C1C3C9E0000ED1549 /* ATLConversationCollectionViewMoreMessagesHeader.h in Headers */,
@@ -941,7 +942,6 @@
 				253C2A111C3C9E0000ED1549 /* ATLTypingIndicatorViewController.h in Headers */,
 				253C2A1E1C3C9E0000ED1549 /* ATLParticipant.h in Headers */,
 				253C2A151C3C9E0000ED1549 /* ATLDataSourceChange.h in Headers */,
-				809086581F48128300B9DFBB /* NSDate+TimeAgo.h in Headers */,
 				5AEF68811C75284300808463 /* LYRIdentity+ATLParticipant.h in Headers */,
 				253C2A191C3C9E0000ED1549 /* ATLParticipantTableDataSet.h in Headers */,
 				253C2A051C3C9E0000ED1549 /* Atlas.h in Headers */,
@@ -1486,6 +1486,7 @@
 				253C2A351C3C9E0000ED1549 /* ATLAvatarImageView.m in Sources */,
 				253C2A121C3C9E0000ED1549 /* ATLTypingIndicatorViewController.m in Sources */,
 				253C2A061C3C9E0000ED1549 /* Atlas.m in Sources */,
+				8090865D1F48169300B9DFBB /* NSDate+NVTimeAgo.m in Sources */,
 				253C2A211C3C9E0000ED1549 /* ATLConstants.m in Sources */,
 				253C2A0C1C3C9E0000ED1549 /* ATLConversationListViewController.m in Sources */,
 				253C2A371C3C9E0000ED1549 /* ATLConversationCollectionView.m in Sources */,
@@ -1514,7 +1515,6 @@
 				253C2A181C3C9E0000ED1549 /* ATLMediaAttachment.m in Sources */,
 				253C2A4B1C3C9E0000ED1549 /* ATLMessageInputToolbar.m in Sources */,
 				253C2A551C3C9E0000ED1549 /* ATLProgressView.m in Sources */,
-				809086591F48128300B9DFBB /* NSDate+TimeAgo.m in Sources */,
 				253C2A291C3C9E0000ED1549 /* ATLMessagingUtilities.m in Sources */,
 				253C2A3F1C3C9E0000ED1549 /* ATLConversationTableViewCell.m in Sources */,
 				253C2A0A1C3C9E0000ED1549 /* ATLBaseConversationViewController.m in Sources */,
