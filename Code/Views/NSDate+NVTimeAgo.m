@@ -219,7 +219,9 @@
     
     //Format
     [dateFormatter setDateFormat:@"h:mm a"];
-    return [NSString stringWithFormat:@"Yesterday at %@", [dateFormatter stringFromDate:self]];
+  //  return [NSString stringWithFormat:@"Yesterday at %@", [dateFormatter stringFromDate:self]];
+    
+     return [NSString stringWithFormat:@"Yesterday"];
 
 }
 
