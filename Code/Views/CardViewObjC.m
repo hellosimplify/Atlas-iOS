@@ -3,8 +3,8 @@
 static CGFloat radius = 5;
 
 static int shadowOffsetWidth = 0;
-static int shadowOffsetHeight = 3;
-static float shadowOpacity = 0.5;
+static int shadowOffsetHeight = 0;
+static float shadowOpacity = 0;
 
 @implementation CardViewObjC
 
