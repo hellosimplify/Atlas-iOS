@@ -400,8 +400,8 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 {
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLUnreadMessageCountLabelSize]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLUnreadMessageCountLabelSize]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-6]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicator attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-3]];
 }
 
 - (void)configureChevronIconViewConstraints
