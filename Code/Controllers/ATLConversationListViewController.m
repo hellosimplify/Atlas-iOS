@@ -117,12 +117,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _arrConversions = [[NSArray alloc]init];
-    
-    
-    if( [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"] != nil){
-        _arrConversions = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"];
-    }
+   
     
     
     self.title = ATLLocalizedString(@"atl.conversationlist.title.key", ATLConversationListViewControllerTitle, nil);
@@ -158,6 +153,14 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    
+    _arrConversions = [[NSArray alloc]init];
+    
+    
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"] != nil){
+        _arrConversions = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"];
+    }
     
     // Perform setup here so that our children can initialize via viewDidLoad
     if (!self.queryController) {
