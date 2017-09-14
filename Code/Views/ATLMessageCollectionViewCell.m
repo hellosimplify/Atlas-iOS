@@ -89,14 +89,26 @@ NSInteger const kATLSharedCellTag = 1000;
 - (void)lyr_commonInit
 {
     // Default UIAppearance
-    _messageTextFont = [UIFont systemFontOfSize:17];
-    _messageTextColor = [UIColor blackColor];
+//    _messageTextFont = [UIFont systemFontOfSize:17];
+//    _messageTextColor = [UIColor blackColor];
+    
+    _messageTextFont = [self simplifyFont];
+    _messageTextColor = [self charcoalGreyColor];
+    
     _messageLinkTextColor = [UIColor whiteColor];
     _messageTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber;
     _imageProcessingConcurrentQueue = dispatch_queue_create(ATLMessageCollectionViewCellImageProcessingConcurrentQueue, DISPATCH_QUEUE_CONCURRENT);
     [self.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
 }
 
+
+- (UIFont *)simplifyFont {
+    return [UIFont systemFontOfSize:13.0f weight:UIFontWeightLight];
+}
+
+- (UIColor *)charcoalGreyColor {
+    return [UIColor colorWithRed:74.0f / 255.0f green:74.0f / 255.0f blue:74.0f / 255.0f alpha:1.0f];
+}
 - (void)prepareForReuse
 {
     [super prepareForReuse];
