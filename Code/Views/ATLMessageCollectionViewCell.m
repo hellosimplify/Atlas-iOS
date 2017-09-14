@@ -109,6 +109,8 @@ NSInteger const kATLSharedCellTag = 1000;
 - (UIColor *)charcoalGreyColor {
     return [UIColor colorWithRed:74.0f / 255.0f green:74.0f / 255.0f blue:74.0f / 255.0f alpha:1.0f];
 }
+
+
 - (void)prepareForReuse
 {
     [super prepareForReuse];
