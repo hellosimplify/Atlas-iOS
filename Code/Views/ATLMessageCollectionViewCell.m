@@ -103,7 +103,9 @@ NSInteger const kATLSharedCellTag = 1000;
 
 
 - (UIFont *)simplifyFont {
-    return [UIFont systemFontOfSize:13.0f weight:UIFontWeightLight];
+    // return [UIFont systemFontOfSize:13.0f weight:UIFontWeightLight];
+    return [UIFont systemFontOfSize:16.0f weight:UIFontWeightRegular];
+    
 }
 
 - (UIColor *)charcoalGreyColor {
