@@ -439,8 +439,11 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         
         if(strTitle.length > 0){
             [conversationCell updateWithConversationTitle:strTitle];
+            [conversation setValue:strTitle forMetadataAtKeyPath:@"title"];
+            
         }else{
             [conversationCell updateWithConversationTitle:conversationTitle];
+            [conversation setValue:conversationTitle forMetadataAtKeyPath:@"title"];
         }
         
         
