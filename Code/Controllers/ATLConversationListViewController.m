@@ -49,6 +49,7 @@ static UIView *ATLMakeLoadingMoreConversationsIndicatorView()
 @property (nonatomic) BOOL showingMoreConversationsIndicator;
 @property (nonatomic, readwrite) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *arrConversions;
+@property (nonatomic, strong) NSArray *arrConversionsText;
 
 
 @end
@@ -117,7 +118,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
+    
     
     
     self.title = ATLLocalizedString(@"atl.conversationlist.title.key", ATLConversationListViewControllerTitle, nil);
@@ -154,12 +155,16 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 {
     [super viewWillAppear:animated];
     
-    
     _arrConversions = [[NSArray alloc]init];
+    _arrConversionsText = [[NSArray alloc]init];
     
     
     if( [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"] != nil){
         _arrConversions = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversions"];
+    }
+    
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversionsText"] != nil){
+        _arrConversionsText = [[NSUserDefaults standardUserDefaults] objectForKey:@"arrConversionsText"];
     }
     
     // Perform setup here so that our children can initialize via viewDidLoad
@@ -377,14 +382,6 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     [self configureCell:conversationCell atIndexPath:indexPath];
     
-    //    LYRConversation *conversation = [self.queryController numberOfObjectsInSection:indexPath.section] ? [self.queryController objectAtIndexPath:indexPath] : nil;
-    //
-    //    NSString *strconv = conversation.identifier.absoluteString;
-    //    if([_arrConversions containsObject:strconv]){
-    //        conversationCell.backgroundColor = [UIColor redColor];
-    //    }else{
-    //        conversationCell.backgroundColor = [UIColor clearColor];
-    //    }
     
     return conversationCell;
 }
@@ -415,8 +412,14 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     [conversationCell presentConversation:conversation];
     
     NSString *strconv = conversation.identifier.absoluteString;
+    
+    NSString *strTitle = @"";
+    
     if([_arrConversions containsObject:strconv]){
         [conversationCell updateChatIcon:NO];
+        if(_arrConversionsText.count > [_arrConversions indexOfObject:strconv]){
+            strTitle = [_arrConversionsText objectAtIndex:[_arrConversions indexOfObject:strconv]];
+        }
     }else{
         [conversationCell updateChatIcon:YES];
     }
@@ -433,7 +436,14 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     
     if ([self.dataSource respondsToSelector:@selector(conversationListViewController:titleForConversation:)]) {
         NSString *conversationTitle = [self.dataSource conversationListViewController:self titleForConversation:conversation];
-        [conversationCell updateWithConversationTitle:conversationTitle];
+        
+        if(strTitle.length > 0){
+            [conversationCell updateWithConversationTitle:strTitle];
+        }else{
+            [conversationCell updateWithConversationTitle:conversationTitle];
+        }
+        
+        
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Conversation View Delegate must return a conversation label" userInfo:nil];
     }
@@ -485,10 +495,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
                 actionString = [self.dataSource conversationListViewController:self textForButtonWithDeletionMode:deletionMode.integerValue];
             } else {
                 switch (deletionMode.integerValue) {
-                    case LYRDeletionModeMyDevices:
+                        case LYRDeletionModeMyDevices:
                         actionString = ATLLocalizedString(@"atl.conversationlist.deletionmode.mydevices.key", ATLConversationListViewControllerDeletionModeMyDevices, nil);
                         break;
-                    case LYRDeletionModeAllParticipants:
+                        case LYRDeletionModeAllParticipants:
                         actionString = ATLLocalizedString(@"atl.conversationlist.deletionmode.everyone.key", ATLConversationListViewControllerDeletionModeEveryone, nil);
                         break;
                     default:
@@ -499,10 +509,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
                 actionColor = [self.dataSource conversationListViewController:self colorForButtonWithDeletionMode:deletionMode.integerValue];
             } else {
                 switch (deletionMode.integerValue) {
-                    case LYRDeletionModeMyDevices:
+                        case LYRDeletionModeMyDevices:
                         actionColor = [UIColor redColor];
                         break;
-                    case LYRDeletionModeAllParticipants:
+                        case LYRDeletionModeAllParticipants:
                         actionColor = [UIColor grayColor];
                         break;
                     default:
@@ -582,21 +592,21 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
            newIndexPath:(NSIndexPath *)newIndexPath
 {
     switch (type) {
-        case LYRQueryControllerChangeTypeInsert:
+            case LYRQueryControllerChangeTypeInsert:
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
-        case LYRQueryControllerChangeTypeUpdate:
+            case LYRQueryControllerChangeTypeUpdate:
             [self.tableView reloadRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
-        case LYRQueryControllerChangeTypeMove:
+            case LYRQueryControllerChangeTypeMove:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
-        case LYRQueryControllerChangeTypeDelete:
+            case LYRQueryControllerChangeTypeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
