@@ -22,6 +22,8 @@
 #import "ATLMediaAttachment.h"
 #import "ATLMessagingUtilities.h"
 
+#define Is_IPhoneX [UIScreen mainScreen].nativeBounds.size.height
+
 NSString *const ATLMessageInputToolbarDidChangeHeightNotification = @"ATLMessageInputToolbarDidChangeHeightNotification";
 
 @interface ATLMessageInputToolbar () <UITextViewDelegate>
@@ -162,6 +164,10 @@ static CGFloat const ATLButtonHeight = 28.0f;
     frame.size.height = CGRectGetHeight(textViewFrame) + self.verticalMargin * 2;
     frame.origin.y -= frame.size.height - CGRectGetHeight(self.frame);
  
+    
+    if (Is_IPhoneX == 2436){
+        frame.origin.y = -25;
+    }
     // Only calculate button centerY once to anchor it to bottom of bar.
     if (!self.buttonCenterY) {
         self.buttonCenterY = (CGRectGetHeight(frame) - CGRectGetHeight(leftButtonFrame)) / 2;
