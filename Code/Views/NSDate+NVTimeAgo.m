@@ -50,7 +50,7 @@
     
     //Should never hit this but handle the future case
     if(secondsSince < 0)
-        return @"In The Future";
+        return @"Just now";
         
     
     // < 1 minute = "Just now"
