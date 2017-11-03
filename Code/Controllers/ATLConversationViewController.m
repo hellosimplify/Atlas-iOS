@@ -809,7 +809,9 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
         picker.sourceType = sourceType;
         picker.videoQuality = UIImagePickerControllerQualityTypeHigh;
-        [self.navigationController presentViewController:picker animated:YES completion:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController presentViewController:picker animated:YES completion:nil];
+        });
     }
 }
 
