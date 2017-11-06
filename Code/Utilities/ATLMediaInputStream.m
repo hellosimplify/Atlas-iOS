@@ -499,7 +499,7 @@ static size_t ATLMediaInputStreamPutBytesIntoStreamCallback(void *assetStreamRef
     
     // Prepare the AVAsset (works with both ALAsset and files).
     AVAsset *videoAVAsset = [AVAsset assetWithURL:self.sourceAssetURL ?: self.sourceFileURL];
-
+    
     // Set the appropriate encoder preset based on the self.compressionQuality.
     NSString *encoderPresetName;
     if (self.compressionQuality >= 0.8f || self.compressionQuality == 0.0f) {
@@ -627,7 +627,7 @@ static size_t ATLMediaInputStreamPutBytesIntoStreamCallback(void *assetStreamRef
         ATLMediaInputStreamLog(@"return %lu", (unsigned long)bytesConsumed);
     } while (bytesRead != 0);
     [exportedVideoFileInputStream close];
-
+    
     free(buffer);
     
     if (bytesRead == 0) {
@@ -914,3 +914,4 @@ static size_t ATLMediaInputStreamPutBytesIntoStreamCallback(void *assetStreamRef
     ATLMediaInputStreamLog(@"return %lu", (unsigned long)bytesConsumed);
     return bytesConsumed;
 }
+

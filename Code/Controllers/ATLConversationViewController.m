@@ -115,7 +115,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     _shouldDisplayAvatarItemForOneOtherParticipant = NO;
     _shouldDisplayAvatarItemForAuthenticatedUser = NO;
     _shouldCreateDistinctConversation = YES;
-
+    
     _avatarItemDisplayFrequency = ATLAvatarItemDisplayFrequencySection;
     _typingParticipantIDs = [NSMutableOrderedSet new];
     _sectionHeaders = [NSHashTable weakObjectsHashTable];
@@ -149,7 +149,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     [super viewDidLoad];
     
     _arrSpotlight = [[NSMutableArray alloc]init];
-
+    
     [self configureControllerForConversation];
     self.messageInputToolbar.inputToolBarDelegate = self;
     self.addressBarController.delegate = self;
@@ -822,7 +822,12 @@ static NSInteger const ATLPhotoActionSheet = 1000;
             NSLog(@"Failed to capture last photo with error: %@", [error localizedDescription]);
         } else {
             ATLMediaAttachment *mediaAttachment = [ATLMediaAttachment mediaAttachmentWithAssetURL:assetURL thumbnailSize:ATLDefaultThumbnailSize];
-            [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+            });
+            
         }
     });
 }
@@ -848,7 +853,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
     
     if (mediaAttachment) {
-        [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+        });
+        
     }
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self.view becomeFirstResponder];
@@ -873,7 +881,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     if (!self.conversation) return;
     if (!notification.object) return;
     if (![notification.object isEqual:self.conversation]) return;
-
+    
     LYRTypingIndicator *typingIndicator = notification.userInfo[LYRTypingIndicatorObjectUserInfoKey];
     if (typingIndicator.action == LYRTypingIndicatorActionBegin) {
         [self.typingParticipantIDs addObject:typingIndicator.sender.userID];
@@ -1441,3 +1449,4 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 }
 
 @end
+
