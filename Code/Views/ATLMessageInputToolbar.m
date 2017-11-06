@@ -114,6 +114,10 @@ static CGFloat const ATLButtonHeight = 28.0f;
 {
     [super layoutSubviews];
     
+    [self bringSubviewToFront:self.leftAccessoryButton];
+    [self bringSubviewToFront:self.textInputView];
+    [self bringSubviewToFront:self.rightAccessoryButton];
+    
     if (self.firstAppearance) {
         [self configureRightAccessoryButtonState];
         self.firstAppearance = NO;
@@ -164,10 +168,9 @@ static CGFloat const ATLButtonHeight = 28.0f;
     frame.size.height = CGRectGetHeight(textViewFrame) + self.verticalMargin * 2;
     frame.origin.y -= frame.size.height - CGRectGetHeight(self.frame);
  
-    //Tempapary
-//    if (Is_IPhoneX == 2436){
-//        frame.origin.y = -25;
-//    }
+    if (Is_IPhoneX == 2436){
+        frame.origin.y = -25;
+    }
     // Only calculate button centerY once to anchor it to bottom of bar.
     if (!self.buttonCenterY) {
         self.buttonCenterY = (CGRectGetHeight(frame) - CGRectGetHeight(leftButtonFrame)) / 2;
