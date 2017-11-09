@@ -123,6 +123,11 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.firstAppearance = NO;
     }
     
+    CGFloat bottomInset = 0;
+    if (@available(iOS 11.0, *)) {
+        bottomInset = self.safeAreaInsets.bottom;
+    }
+    
     // set the font for the dummy text view as well
     self.dummyTextView.font = self.textInputView.font;
     
@@ -165,18 +170,17 @@ static CGFloat const ATLButtonHeight = 28.0f;
     CGSize fittedTextViewSize = [self.dummyTextView sizeThatFits:CGSizeMake(CGRectGetWidth(textViewFrame), MAXFLOAT)];
     textViewFrame.size.height = ceil(MIN(fittedTextViewSize.height, self.textViewMaxHeight));
     
-    frame.size.height = CGRectGetHeight(textViewFrame) + self.verticalMargin * 2;
+    frame.size.height = CGRectGetHeight(textViewFrame) + self.verticalMargin * 2 + bottomInset;
+
     frame.origin.y -= frame.size.height - CGRectGetHeight(self.frame);
     
-    //    if (Is_IPhoneX == 2436){
-    //        frame.origin.y = -25;
-    //    }
+   
     // Only calculate button centerY once to anchor it to bottom of bar.
     if (!self.buttonCenterY) {
         self.buttonCenterY = (CGRectGetHeight(frame) - CGRectGetHeight(leftButtonFrame)) / 2;
     }
-    leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY;
-    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY;
+    leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY - bottomInset;
+    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY - bottomInset;
     
     BOOL heightChanged = CGRectGetHeight(textViewFrame) != CGRectGetHeight(self.textInputView.frame);
     
