@@ -24,6 +24,8 @@
 
 #define Is_IPhoneX [UIScreen mainScreen].nativeBounds.size.height
 
+#define IS_IOS11orHIGHER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0)
+
 NSString *const ATLMessageInputToolbarDidChangeHeightNotification = @"ATLMessageInputToolbarDidChangeHeightNotification";
 
 @interface ATLMessageInputToolbar () <UITextViewDelegate>
@@ -124,8 +126,12 @@ static CGFloat const ATLButtonHeight = 28.0f;
     }
     
     CGFloat bottomInset = 0;
-    if (@available(iOS 11.0, *)) {
-        bottomInset = self.safeAreaInsets.bottom;
+    //    if (@available(iOS 11.0, *)) {
+    //        bottomInset = self.safeAreaInsets.bottom;
+    //    }
+    
+    if (Is_IPhoneX == 2436){
+        bottomInset = 34.0 ;
     }
     
     // set the font for the dummy text view as well
@@ -171,16 +177,25 @@ static CGFloat const ATLButtonHeight = 28.0f;
     textViewFrame.size.height = ceil(MIN(fittedTextViewSize.height, self.textViewMaxHeight));
     
     frame.size.height = CGRectGetHeight(textViewFrame) + self.verticalMargin * 2 + bottomInset;
-
+    
     frame.origin.y -= frame.size.height - CGRectGetHeight(self.frame);
     
-   
+    
     // Only calculate button centerY once to anchor it to bottom of bar.
     if (!self.buttonCenterY) {
         self.buttonCenterY = (CGRectGetHeight(frame) - CGRectGetHeight(leftButtonFrame)) / 2;
     }
-    leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY - bottomInset;
-    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY - bottomInset;
+    
+    if (Is_IPhoneX == 2436){
+        leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY - bottomInset + 16.5;
+        rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY - bottomInset + 16.5;
+    }else{
+        leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY - bottomInset ;
+        rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY - bottomInset;
+    }
+    
+    
+    
     
     BOOL heightChanged = CGRectGetHeight(textViewFrame) != CGRectGetHeight(self.textInputView.frame);
     
