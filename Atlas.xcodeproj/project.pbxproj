@@ -156,6 +156,10 @@
 		7858B6551CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
 		7858B6561CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
 		7858B6571CE54BBE007795AB /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7858B61E1CE54BBE007795AB /* plus@3x.png */; };
+		806D51C71FBF18AF00A3BC2C /* UICollectionView+ATLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 806D51C31FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.m */; };
+		806D51C81FBF18AF00A3BC2C /* UICollectionView+ATLHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 806D51C41FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.h */; };
+		806D51C91FBF18AF00A3BC2C /* UIView+ATLHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 806D51C51FBF18AF00A3BC2C /* UIView+ATLHelpers.h */; };
+		806D51CA1FBF18AF00A3BC2C /* UIView+ATLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 806D51C61FBF18AF00A3BC2C /* UIView+ATLHelpers.m */; };
 		80851A191F472358005998D7 /* CardViewObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 80851A171F472358005998D7 /* CardViewObjC.h */; };
 		80851A1A1F472358005998D7 /* CardViewObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 80851A181F472358005998D7 /* CardViewObjC.m */; };
 		80851A1E1F472CDF005998D7 /* icoGreyTime.png in Resources */ = {isa = PBXBuildFile; fileRef = 80851A1B1F472CDF005998D7 /* icoGreyTime.png */; };
@@ -361,6 +365,10 @@
 		7858B61C1CE54BBE007795AB /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Resources/plus.png; sourceTree = "<group>"; };
 		7858B61D1CE54BBE007795AB /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Resources/plus@2x.png"; sourceTree = "<group>"; };
 		7858B61E1CE54BBE007795AB /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Resources/plus@3x.png"; sourceTree = "<group>"; };
+		806D51C31FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+ATLHelpers.m"; sourceTree = "<group>"; };
+		806D51C41FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+ATLHelpers.h"; sourceTree = "<group>"; };
+		806D51C51FBF18AF00A3BC2C /* UIView+ATLHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ATLHelpers.h"; sourceTree = "<group>"; };
+		806D51C61FBF18AF00A3BC2C /* UIView+ATLHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ATLHelpers.m"; sourceTree = "<group>"; };
 		80851A171F472358005998D7 /* CardViewObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardViewObjC.h; sourceTree = "<group>"; };
 		80851A181F472358005998D7 /* CardViewObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardViewObjC.m; sourceTree = "<group>"; };
 		80851A1B1F472CDF005998D7 /* icoGreyTime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icoGreyTime.png; sourceTree = "<group>"; };
@@ -571,6 +579,10 @@
 				253C29CF1C3C9E0000ED1549 /* ATLConstants.m */,
 				253C29D01C3C9E0000ED1549 /* ATLErrors.h */,
 				253C29D11C3C9E0000ED1549 /* ATLErrors.m */,
+				806D51C41FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.h */,
+				806D51C31FBF18AE00A3BC2C /* UICollectionView+ATLHelpers.m */,
+				806D51C51FBF18AF00A3BC2C /* UIView+ATLHelpers.h */,
+				806D51C61FBF18AF00A3BC2C /* UIView+ATLHelpers.m */,
 				253C29D21C3C9E0000ED1549 /* ATLLocationManager.h */,
 				253C29D31C3C9E0000ED1549 /* ATLLocationManager.m */,
 				253C29D41C3C9E0000ED1549 /* ATLMediaInputStream.h */,
@@ -915,6 +927,7 @@
 				809086641F48237000B9DFBB /* NSDate+NVTimeAgo.h in Headers */,
 				253C2A4A1C3C9E0000ED1549 /* ATLMessageInputToolbar.h in Headers */,
 				253C2A321C3C9E0000ED1549 /* ATLAddressBarView.h in Headers */,
+				806D51C91FBF18AF00A3BC2C /* UIView+ATLHelpers.h in Headers */,
 				253C2A3C1C3C9E0000ED1549 /* ATLConversationCollectionViewMoreMessagesHeader.h in Headers */,
 				253C2A0D1C3C9E0000ED1549 /* ATLConversationViewController.h in Headers */,
 				253C2A281C3C9E0000ED1549 /* ATLMessagingUtilities.h in Headers */,
@@ -931,6 +944,7 @@
 				253C2A1B1C3C9E0000ED1549 /* ATLAvatarItem.h in Headers */,
 				253C2A0F1C3C9E0000ED1549 /* ATLParticipantTableViewController.h in Headers */,
 				253C2A1C1C3C9E0000ED1549 /* ATLConversationPresenting.h in Headers */,
+				806D51C81FBF18AF00A3BC2C /* UICollectionView+ATLHelpers.h in Headers */,
 				253C2A1D1C3C9E0000ED1549 /* ATLMessagePresenting.h in Headers */,
 				253C2A341C3C9E0000ED1549 /* ATLAvatarImageView.h in Headers */,
 				253C2A071C3C9E0000ED1549 /* ATLAddressBarViewController.h in Headers */,
@@ -1505,9 +1519,11 @@
 				253C2A1A1C3C9E0000ED1549 /* ATLParticipantTableDataSet.m in Sources */,
 				253C2A161C3C9E0000ED1549 /* ATLDataSourceChange.m in Sources */,
 				5AEF68821C75284300808463 /* LYRIdentity+ATLParticipant.m in Sources */,
+				806D51C71FBF18AF00A3BC2C /* UICollectionView+ATLHelpers.m in Sources */,
 				253C2A531C3C9E0000ED1549 /* ATLPlayView.m in Sources */,
 				253C2A2D1C3C9E0000ED1549 /* UIResponder+ATLFirstResponder.m in Sources */,
 				253C2A231C3C9E0000ED1549 /* ATLErrors.m in Sources */,
+				806D51CA1FBF18AF00A3BC2C /* UIView+ATLHelpers.m in Sources */,
 				253C2A251C3C9E0000ED1549 /* ATLLocationManager.m in Sources */,
 				253C2A4D1C3C9E0000ED1549 /* ATLOutgoingMessageCollectionViewCell.m in Sources */,
 				253C2A451C3C9E0000ED1549 /* ATLMessageBubbleView.m in Sources */,
